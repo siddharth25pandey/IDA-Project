@@ -1,2 +1,2 @@
 # IDA
-Group-17 Projecy
+Group-17 Project
