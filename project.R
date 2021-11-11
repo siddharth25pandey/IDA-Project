@@ -1,6 +1,7 @@
 cat("\014") # To clear the console
 #setwd("/Users/shreyash/Documents/UG3/sem5/ida/R/project/")
-setwd("C:/Users/91843/Desktop/IDA/datasets/")
+#setwd("C:/Users/91843/Desktop/IDA/datasets/")
+setwd("C:/Users/Priyam Bajpai/Desktop/IDA/datasets/")
 # set working directory based on your installation of R
 
 library(tidyverse) 
@@ -105,36 +106,25 @@ ggplot(data=food, aes(x=colA, y=colB, group=1)) +
 #------------------StarBuck Menu Nutrition Drinks ----------------------------------
 
 drinks <- read.csv("starbucks-menu-nutrition-drinks.csv")
-drinks<-drinks[!(drinks$Calories=="-"),]
 summary(drinks)
 head(drinks,6)
 names(drinks)
-drinks$Carb...g.
-ncol(drinks)
-drinks[sample(nrow(drinks), 3), ]
+drinks<-drinks[!(drinks$Calories=="-"),]
+head(drinks,6)
+drinks[sample(nrow(drinks), 3), 5]
 colC<-drinks$Calories
+colC<-as.integer(colC)
 colD<-drinks$Carb...g.
-is.numeric(colC)
-is.numeric(colD)
-class(colC)
-typeof(colC)
-typeof(colD)
-length(colC)
-length(colD)
-colC <- as.integer(colC)
-colD <- as.integer(colD)
-
-typeof(colC)
-typeof(colD)
+colD<-as.integer(colD)
 cor.test(colC,colD)
-r<-pearson_corr(colC,colD)
-print(r)
-df<-degree_of_freedom(colC,colD)
-print(df)
-#t <-t_test(colC,colD)
-#print(t)
-value_of_t <-t_value(colC,colD)
-print(value_of_t)
+r_d<-pearson_corr(colC,colD)
+print(r_d)
+#cor.test(fcolA,colB,alternative="less")
+#cor.test(colA,colB,alternative="greater")
+#cor.test(colA,colB,alternative="two.sided")
+ggplot(data=drinks, aes(x=colC, y=colD, group=1)) +
+  geom_line(color="red",linetype="dashed")+
+  geom_point()+ggtitle("Relation Between Calories of Drinks and Carbs..")
 
 
 #------------------StarBuck Drinks Menu----------------------------------
