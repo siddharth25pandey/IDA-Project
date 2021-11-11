@@ -45,19 +45,19 @@ degree_of_freedom <- function(X,Y)
   return ((length(X)-2))
 }
 
-t_test <- function(X,Y)
-{
-  if (length(X) != length(Y)){
-    return("unequal columns")
-  }
-  n <- length(X)
-  mX <- sum(X)/n
-  mY <- sum(Y)/n
-  vX <- variance(X)
-  vY <- variance(Y)
-  t <- (mX-mY)/(((vX+vY)/n)^0.5)
-  return (t)
-}
+# t_test <- function(X,Y)
+# {
+#   if (length(X) != length(Y)){
+#     return("unequal columns")
+#   }
+#   n <- length(X)
+#   mX <- sum(X)/n
+#   mY <- sum(Y)/n
+#   vX <- variance(X)
+#   vY <- variance(Y)
+#   t <- (mX-mY)/(((vX+vY)/n)^0.5)
+#   return (t)
+# }
 
 t_value <-function(X,Y)
 {
@@ -65,8 +65,8 @@ t_value <-function(X,Y)
     return("unequal columns")
   }
   n <- length(X)
-  p <-pearson_corr(X,Y)
-  value_of_t <- p *((n-2)/(1-(p^2)))^0.5
+  r <-pearson_corr(X,Y)
+  value_of_t <- r *((n-2)/(1-(r^2)))^0.5
   return (value_of_t)
   
 }
@@ -89,12 +89,12 @@ r<-pearson_corr(colA,colB)
 print(r)
 df<-degree_of_freedom(colA,colB)
 print(df)
-t <-t_test(colA,colB)
+t <-t_value(colA,colB)
 print(t)
-value_of_t <-t_value(colA,colB)
-print(value_of_t)
-p_value <- pt(t, df=df, lower.tail=FALSE)
-print(p_value)
+#value_of_t <-t_value(colA,colB)
+#print(value_of_t)
+#p_value <- pt(t, df=df, lower.tail=FALSE)
+#print(p_value)
 #cor.test(fcolA,colB,alternative="less")
 #cor.test(colA,colB,alternative="greater")
 #cor.test(colA,colB,alternative="two.sided")
@@ -121,8 +121,8 @@ typeof(colC)
 typeof(colD)
 length(colC)
 length(colD)
-drinks$Calories <- as.numeric(drinks$Calories)
-drinks$Carb...g. <- as.numeric(drinks$Carb...g.)
+colC <- as.integer(colC)
+colD <- as.integer(colD)
 
 typeof(colC)
 typeof(colD)
@@ -131,8 +131,8 @@ r<-pearson_corr(colC,colD)
 print(r)
 df<-degree_of_freedom(colC,colD)
 print(df)
-t <-t_test(colC,colD)
-print(t)
+#t <-t_test(colC,colD)
+#print(t)
 value_of_t <-t_value(colC,colD)
 print(value_of_t)
 
