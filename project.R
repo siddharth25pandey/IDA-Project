@@ -1,6 +1,6 @@
 cat("\014") # To clear the console
-setwd("/Users/shreyash/Documents/UG3/sem5/ida/R/project/")
-#setwd("C:/Users/91843/Desktop/IDA/datasets/")
+#setwd("/Users/shreyash/Documents/UG3/sem5/ida/R/project/")
+setwd("C:/Users/Priyam Bajpai/Desktop/IDA/")
 # set working directory based on your installation of R
 
 library(tidyverse) 
@@ -63,27 +63,25 @@ ggplot(data=food, aes(x=colA, y=colB, group=1)) +
 #------------------StarBuck Menu Nutrition Drinks ----------------------------------
 
 drinks <- read.csv("datasets/starbucks-menu-nutrition-drinks.csv")
-#drinks <- read.csv("starbucks-menu-nutrition-drinks.csv")
 summary(drinks)
 head(drinks,6)
 names(drinks)
-drinks$Carb...g.
-ncol(drinks)
-drinks[sample(nrow(drinks), 3), ]
-colC<-drinks$Calories
-colD<-drinks$Carb...g.
-is.numeric(colC)
-is.numeric(colD)
-class(colC)
-typeof(colC)
-typeof(colD)
-length(colC)
-length(colD)
-drinks$Calories <- as.numeric(drinks$Calories)
-drinks$Carb...g. <- as.numeric(drinks$Carb...g.)
-cor.test(colC,colD)
-typeof(colC)
-typeof(colD)
+drinks<-drinks[!(drinks$Calories=="-"),]
+head(drinks,6)
+drinks[sample(nrow(drinks), 3), 5]
+colA<-drinks$Calories
+colA<-as.integer(colA)
+colB<-drinks$Carb...g.
+colB<-as.integer(colB)
+cor.test(colA,colB)
+r_d<-pearson_corr(colA,colB)
+print(r_d)
+#cor.test(fcolA,colB,alternative="less")
+#cor.test(colA,colB,alternative="greater")
+#cor.test(colA,colB,alternative="two.sided")
+ggplot(data=drinks, aes(x=colA, y=colB, group=1)) +
+  geom_line(color="red",linetype="dashed")+
+  geom_point()+ggtitle("Relation Between Calories of Drinks and Carbs..")
 
 #------------------StarBuck Drinks Menu----------------------------------
 
