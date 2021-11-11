@@ -45,24 +45,18 @@ degree_of_freedom <- function(X,Y)
   return ((length(X)-2))
 }
 
-two_sample_t_test <- function(X,Y)
+t_test <- function(X,Y)
 {
   if (length(X) != length(Y)){
     return("unequal columns")
   }
-    n <- length(X)
-    mX <- sum(X)/n
-    mY <- sum(Y)/n
-    vX <- variance(X)
-    vY <- variance(Y)
-    ssX <- (vX*(n-1))^0.5
-    ssY <- (vY*(n-1))^0.5
-    #pooled_variance <- ((n-1)*vX+(n-1)*vY)/(2*n-2)
-    pooled_variance <- (vX+vY)/2
-    t <- (mX-mY)/(pooled_variance)
-    return (t)
-    
-  
+  n <- length(X)
+  mX <- sum(X)/n
+  mY <- sum(Y)/n
+  vX <- variance(X)
+  vY <- variance(Y)
+  t <- (mX-mY)/(((vX+vY)/n)^0.5)
+  return (t)
 }
 
 t_value <-function(X,Y)
@@ -95,10 +89,11 @@ r<-pearson_corr(colA,colB)
 print(r)
 df<-degree_of_freedom(colA,colB)
 print(df)
-tstt_test_statistics <- two_sample_t_test(colA,colB)
-print(tstt_test_statistics)
+t <-t_test(colA,colB)
+print(t)
 value_of_t <-t_value(colA,colB)
 print(value_of_t)
+
 #cor.test(fcolA,colB,alternative="less")
 #cor.test(colA,colB,alternative="greater")
 #cor.test(colA,colB,alternative="two.sided")
@@ -135,8 +130,8 @@ r<-pearson_corr(colC,colD)
 print(r)
 df<-degree_of_freedom(colC,colD)
 print(df)
-tstt_test_statistics <- two_sample_t_test(colC,colD)
-print(tstt_test_statistics)
+t <-t_test(colC,colD)
+print(t)
 value_of_t <-t_value(colC,colD)
 print(value_of_t)
 
@@ -144,8 +139,6 @@ print(value_of_t)
 #------------------StarBuck Drinks Menu----------------------------------
 
 drinks_exp <- read.csv("starbucks_drinkMenu_expanded.csv")
-lapply(drinks_exp,function(x) { length(which(is.na(x)))})
-colSums(is.na(drinks_ex))
 summary(drinks_exp)
 head(drinks_exp,6)
 names(drinks_exp)
