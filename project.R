@@ -1,13 +1,10 @@
 cat("\014") # To clear the console
 #setwd("/Users/shreyash/Documents/UG3/sem5/ida/R/project/")
-#setwd("C:/Users/91843/Desktop/IDA/datasets/")
-setwd("C:/Users/Priyam Bajpai/Desktop/IDA/datasets/")
+setwd("C:/Users/91843/Desktop/IDA/datasets/")
+#setwd("C:/Users/Priyam Bajpai/Desktop/IDA/datasets/")
 # set working directory based on your installation of R
 
-library(tidyverse) 
-library(janitor)
 library(ggplot2)
-
 variance <- function(X){
   n <- length(X)
   mX <- sum(X)/n
@@ -42,7 +39,7 @@ pearson_corr <- function(X,Y) {
 degree_of_freedom <- function(X,Y)
 { if (length(X) != length(Y)){
   return("unequal columns")
-  }
+}
   return ((length(X)-2))
 }
 
@@ -71,6 +68,33 @@ t_value <-function(X,Y)
   return (value_of_t)
   
 }
+coefficient_of_detemination <-function(X,Y,df)
+{
+  if (length(X) != length(Y)){
+    return("unequal columns")
+    
+    
+  }
+  xy <- 0.0
+  x2 <-0.0
+  y2 <-0.0
+  n <- length(X)
+  for (i in 1:n){
+    xy <- xy + X[i]*Y[i]
+  }
+  for (i in 1:n){
+    x2 <- x2 + X[i]*X[i]
+  }
+  for (i in 1:n){
+    y2 <- y2 + Y[i]*Y[i]
+  }
+  
+ 
+  
+  
+  r_2=((n*xy)-(sum(X)*sum(Y)))/(((n*x2)-(sum(X)^2))*((n*y2)-(sum(Y)^2))^0.5)
+    return (r_2)
+}
 
 
 #------------------StarBuck Menu Nutrition Food ----------------------------------
@@ -79,6 +103,7 @@ t_value <-function(X,Y)
 food <- read.csv("starbucks-menu-nutrition-food.csv",fileEncoding = "UTF-16")
 lapply(food,function(x) { length(which(is.na(x)))})
 colSums(is.na(food))
+str(food)
 summary(food)
 head(food,6)
 names(food)
@@ -92,6 +117,10 @@ df<-degree_of_freedom(colA,colB)
 print(df)
 t <-t_value(colA,colB)
 print(t)
+r2 <-coefficient_of_detemination(colA,colB,food)
+print(r2)
+r_square_in_built = lm(colA ~ colB, data=food)
+summary(r_square_in_built)$r.squared 
 #value_of_t <-t_value(colA,colB)
 #print(value_of_t)
 #p_value <- pt(t, df=df, lower.tail=FALSE)
