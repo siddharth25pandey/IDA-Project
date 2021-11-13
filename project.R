@@ -1,10 +1,16 @@
 cat("\014") # To clear the console
+# set working directory based on your installation of R
 #setwd("/Users/shreyash/Documents/UG3/sem5/ida/R/project/")
 setwd("C:/Users/91843/Desktop/IDA/datasets/")
 #setwd("C:/Users/Priyam Bajpai/Desktop/IDA/datasets/")
-# set working directory based on your installation of R
 
+# Library for plotting the plot
 library(ggplot2)
+
+# Functions for Correlation analysis
+#------------------------------------
+
+# Variance function
 variance <- function(X){
   n <- length(X)
   mX <- sum(X)/n
@@ -16,6 +22,7 @@ variance <- function(X){
   return(var)
 }
 
+# Pearson Correlation (Degree of Correlation)
 pearson_corr <- function(X,Y) {
   if (length(X) != length(Y)){
     return("unequal columns")
@@ -36,6 +43,8 @@ pearson_corr <- function(X,Y) {
   r <- tot/(ssX*ssY)
   return(r)
 }
+
+# Degree of Freedon ((m-1)*(n-1))
 degree_of_freedom <- function(X,Y)
 { if (length(X) != length(Y)){
   return("unequal columns")
@@ -43,20 +52,7 @@ degree_of_freedom <- function(X,Y)
   return ((length(X)-2))
 }
 
-# t_test <- function(X,Y)
-# {
-#   if (length(X) != length(Y)){
-#     return("unequal columns")
-#   }
-#   n <- length(X)
-#   mX <- sum(X)/n
-#   mY <- sum(Y)/n
-#   vX <- variance(X)
-#   vY <- variance(Y)
-#   t <- (mX-mY)/(((vX+vY)/n)^0.5)
-#   return (t)
-# }
-
+# T value from degree of correlation
 t_value <-function(X,Y)
 {
   if (length(X) != length(Y)){
@@ -68,12 +64,12 @@ t_value <-function(X,Y)
   return (value_of_t)
   
 }
-coefficient_of_detemination <-function(X,Y,df)
+
+# Coefficient of determination
+coefficient_of_detemination <-function(X,Y)
 {
   if (length(X) != length(Y)){
     return("unequal columns")
-    
-    
   }
   xy <- 0.0
   x2 <-0.0
@@ -89,16 +85,12 @@ coefficient_of_detemination <-function(X,Y,df)
     y2 <- y2 + Y[i]*Y[i]
   }
   
- 
-  
-  
   r_2=((n*xy)-(sum(X)*sum(Y)))/(((n*x2)-(sum(X)^2))*((n*y2)-(sum(Y)^2))^0.5)
-    return (r_2)
+  return (r_2^2)
 }
 
 
 #------------------StarBuck Menu Nutrition Food ----------------------------------
-
 
 food <- read.csv("starbucks-menu-nutrition-food.csv",fileEncoding = "UTF-16")
 lapply(food,function(x) { length(which(is.na(x)))})
@@ -106,8 +98,6 @@ colSums(is.na(food))
 str(food)
 summary(food)
 head(food,6)
-names(food)
-food[sample(nrow(food), 3), 5]
 colA<-food$Calories
 colB<-food$Carb...g.
 cor.test(colA,colB)
@@ -117,7 +107,7 @@ df<-degree_of_freedom(colA,colB)
 print(df)
 t <-t_value(colA,colB)
 print(t)
-r2 <-coefficient_of_detemination(colA,colB,food)
+r2 <-coefficient_of_detemination(colA,colB)
 print(r2)
 r_square_in_built = lm(colA ~ colB, data=food)
 summary(r_square_in_built)$r.squared 
@@ -155,15 +145,4 @@ ggplot(data=drinks, aes(x=colC, y=colD, group=1)) +
   geom_line(color="red",linetype="dashed")+
   geom_point()+ggtitle("Relation Between Calories of Drinks and Carbs..")
 
-
-#------------------StarBuck Drinks Menu----------------------------------
-
-drinks_exp <- read.csv("starbucks_drinkMenu_expanded.csv")
-summary(drinks_exp)
-head(drinks_exp,6)
-names(drinks_exp)
-drinks_exp[sample(nrow(drinks_exp), 3), ]
-ggplot(drinks_exp, aes(x = Sodium..mg.)) +
-  geom_histogram(bins=30) +
-  ggtitle("Sodium Content: Starbucks Menu")
 
