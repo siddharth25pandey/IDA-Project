@@ -75,17 +75,18 @@ coefficient_of_detemination <-function(X,Y)
   x2 <-0.0
   y2 <-0.0
   n <- length(X)
+  mX <- sum(X)/n
+  mY <- sum(Y)/n
   for (i in 1:n){
-    xy <- xy + X[i]*Y[i]
+        xy <- xy + ((X[i]-mX)*(Y[i]-mY))
   }
   for (i in 1:n){
-    x2 <- x2 + X[i]*X[i]
+    x2 <- x2 + ((X[i]-mX)*(X[i]-mX))
   }
   for (i in 1:n){
-    y2 <- y2 + Y[i]*Y[i]
+    y2 <- y2 + ((Y[i]-mY)*(Y[i]-mY))
   }
-  
-  r_2=((n*xy)-(sum(X)*sum(Y)))/(((n*x2)-(sum(X)^2))*((n*y2)-(sum(Y)^2))^0.5)
+  r_2=xy/((x2*y2)^0.5)
   return (r_2^2)
 }
 
@@ -144,5 +145,3 @@ print(r_d)
 ggplot(data=drinks, aes(x=colC, y=colD, group=1)) +
   geom_line(color="red",linetype="dashed")+
   geom_point()+ggtitle("Relation Between Calories of Drinks and Carbs..")
-
-
